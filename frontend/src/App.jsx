@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, HashRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "./lib/supabaseClient.js";
 
@@ -18,6 +18,12 @@ import OperatorLayout from "./pages/operator/OperatorLayout.jsx";
 import OperatorDashboard from "./pages/operator/Dashboard.jsx";
 import BillDetail from "./pages/operator/BillDetail.jsx";
 import Search from "./pages/operator/Search.jsx";
+
+// Detect if running inside Electron
+const isElectron = navigator.userAgent.toLowerCase().includes("electron");
+
+// Conditionally use HashRouter for Electron, BrowserRouter for Web/Android
+const AppRouter = isElectron ? HashRouter : BrowserRouter;
 
 function ProtectedRoute({ children, requiredRole }) {
   const [session, setSession] = useState(null);
@@ -42,11 +48,7 @@ function ProtectedRoute({ children, requiredRole }) {
   }, []);
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-slate-600">Loading...</div>
-      </div>
-    );
+    return <div>Loading...</div>;
   }
 
   if (!session) {
@@ -54,7 +56,7 @@ function ProtectedRoute({ children, requiredRole }) {
   }
 
   if (requiredRole && profile.role !== requiredRole) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/" replace />;
   }
 
   if (!profile.active) {
@@ -66,7 +68,7 @@ function ProtectedRoute({ children, requiredRole }) {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <AppRouter>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
 
@@ -112,6 +114,6 @@ export default function App() {
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </BrowserRouter>
+    </AppRouter>
   );
 }
