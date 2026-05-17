@@ -2,21 +2,37 @@
 node_modules/
 frontend/node_modules/
 
-# Build output
+# Vite / web build
 dist/
 frontend/dist/
 build/
 frontend/build/
 
-# Environment files
-.env
-.env.*
-!.env.example
-frontend/.env
-frontend/.env.*
-!frontend/.env.example
+# Electron output
+release/
+frontend/release/
+out/
+frontend/out/
+*.exe
+*.msi
+*.AppImage
+*.dmg
+*.deb
+*.rpm
+*.snap
+*.blockmap
+*.yml
+latest.yml
+builder-debug.yml
+builder-effective-config.yaml
 
-# Android build/cache
+# Electron builder cache
+.electron/
+.electron-gyp/
+frontend/.electron/
+frontend/.electron-gyp/
+
+# Capacitor / Android build output
 frontend/android/.gradle/
 frontend/android/build/
 frontend/android/app/build/
@@ -25,12 +41,26 @@ frontend/android/captures/
 *.apk
 *.aab
 
-# Signing keys
+# Android signing keys
 *.jks
 *.keystore
 *.p12
 *.pem
 key.properties
+
+# Environment files / secrets
+.env
+.env.*
+!.env.example
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+
+# Supabase local/dev secrets
+supabase/.branches/
+supabase/.temp/
+supabase/.env
+supabase/functions/.env
 
 # Python/backend leftovers
 backend/
@@ -45,14 +75,15 @@ venv/
 *.log
 npm-debug.log*
 yarn-debug.log*
-yarn-error.log*
+pnpm-debug.log*
 
 # Test/report output
+coverage/
 frontend/playwright-report/
 frontend/test-results/
-coverage/
 
 # OS/editor
 .DS_Store
+Thumbs.db
 .idea/
 .vscode/
