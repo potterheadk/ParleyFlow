@@ -87,3 +87,16 @@ frontend/test-results/
 Thumbs.db
 .idea/
 .vscode/
+
+
+# Electron build output
+frontend/release/
+frontend/out/
+release/
+out/
+*.exe
+*.msi
+*.blockmap
+latest.yml
+builder-debug.yml
+builder-effective-config.yaml
