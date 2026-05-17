@@ -1,166 +1,268 @@
-# ParleyFlow
+# 🚚 ParleyFlow
 
-**ParleyFlow** is a delivery payment collection and route management application built with **React**, **Vite**, **Capacitor Android**, **Supabase**, and **IndexedDB**.
-
-It is designed for small delivery operations where admins upload bill sheets, delivery persons collect payment updates, and the app continues working even when internet is temporarily unavailable.
+**ParleyFlow** is a lightweight delivery collection management app built for daily route-based billing operations.  
+It helps admins upload delivery sheets, assign bills to delivery persons, track payment collection, support offline updates, and export professional payment reports.
 
 <p align="center">
-  <strong>Developed by Nachiket with ❤️</strong><br />
-  <a href="https://github.com/potterheadk">GitHub</a> ·
-  <a href="https://www.linkedin.com/in/nachiket-kulkarni-362a54266/">LinkedIn</a>
+  <b>React + Supabase + Capacitor Android + Electron Windows</b>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Frontend-React-blue?style=for-the-badge&logo=react" />
+  <img src="https://img.shields.io/badge/Database-Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white" />
+  <img src="https://img.shields.io/badge/Mobile-Capacitor-119EFF?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Desktop-Electron-47848F?style=for-the-badge&logo=electron&logoColor=white" />
 </p>
 
 ---
 
-## Features
+## ✨ Overview
 
-### Admin
+ParleyFlow was designed for a real-world delivery operation where admins manage daily billing sheets and delivery persons collect payments on assigned routes.
 
-- Admin login using Supabase Auth
-- Dashboard for routes, operators, and bill statistics
-- Upload bill sheets
-- Manage route/bill operational data
-- View delivery persons
-- Export payment collection reports as Excel
-- Android-compatible Excel export using Capacitor file/share support
+The app works directly with **Supabase** and does not require a custom backend server.
 
-### Delivery Person / Operator
-
-- Operator login using Supabase Auth
-- View assigned bills only
-- Search assigned bills
-- Open bill details
-- Save payment collection updates
-- Supports cash, online, cheque, and cash pending amounts
-- Supports cancellation remarks and notes
-- Offline update queue using IndexedDB
-- Syncs pending updates to Supabase when internet returns
-
-### Offline Support
-
-- Bills are cached locally in IndexedDB
-- Payment updates can be saved offline
-- Pending updates sync automatically or manually after reconnection
-- Each phone/device keeps its own local offline queue
-
----
-
-## Tech Stack
-
-- **Frontend:** React + Vite
-- **Mobile:** Capacitor Android
-- **Backend-as-a-Service:** Supabase
-- **Database:** Supabase Postgres
-- **Authentication:** Supabase Auth
-- **Authorization:** Supabase Row Level Security
-- **Offline Storage:** IndexedDB
-- **Excel Import/Export:** `xlsx`
-- **Android File Export:** `@capacitor/filesystem`, `@capacitor/share`
-- **Styling:** Tailwind CSS
-
----
-
-## Current Architecture
-
-```text
-React / Capacitor Android App
+```txt
+Admin / Operator App
         ↓
 Supabase Auth
         ↓
-Supabase Postgres + RLS
+Supabase Database + RLS
         ↓
-IndexedDB offline cache and pending sync queue
+IndexedDB Offline Cache
         ↓
-Supabase Edge Functions for privileged operations, if needed
-```
-
-The app does **not** require a FastAPI/SQLite backend anymore.
+Android APK / Windows EXE
+````
 
 ---
 
-## Project Structure
+## 🔥 Key Features
 
-```text
-frontend/
-├── android/                    # Capacitor Android project
-├── public/                     # Manifest, icons, public assets
-├── src/
-│   ├── api/
-│   │   └── supabaseApi.js      # Supabase data access and export logic
-│   ├── components/
-│   │   ├── AppSignature.jsx
-│   │   ├── SyncStatus.jsx
-│   │   └── ui/
-│   │       └── PaymentCollectionModal.jsx
-│   ├── hooks/
-│   │   ├── useIndexedDB.js
-│   │   └── useOffline.js
-│   ├── lib/
-│   │   └── supabaseClient.js
-│   ├── pages/
-│   │   ├── admin/
-│   │   ├── operator/
-│   │   └── LoginPage.jsx
-│   ├── utils/
-│   │   ├── constants.js
-│   │   ├── formatters.js
-│   │   ├── loginEmail.js
-│   │   └── uuid.js
-│   ├── App.jsx
-│   └── main.jsx
-├── capacitor.config.ts
-├── package.json
-└── vite.config.js
+### 👨‍💼 Admin
 
-supabase/
-├── functions/
-│   └── operator-admin/
-└── migrations/
+* Upload daily bill sheets
+* Assign bills to delivery persons
+* View dashboard summary
+* View active routes
+* View delivery persons
+* Clear route/operator operational data
+* Export payment collection report
+* Export includes totals for:
+
+  * Bill Amount
+  * Cash
+  * Online
+  * Cheque
+  * Cash Pending
+  * Difference
+  * Cancelled count
+
+### 🚴 Delivery Person / Operator
+
+* Login securely
+* View assigned route
+* View assigned bills
+* Search bills
+* Save payment collection
+* Add remarks
+* Mark cancelled bills
+* Work offline
+* Sync pending updates when internet returns
+
+### 📶 Offline Support
+
+ParleyFlow supports offline-first operator workflows.
+
+```txt
+No internet
+   ↓
+Payment saved locally in IndexedDB
+   ↓
+Internet returns
+   ↓
+Pending updates sync to Supabase
+```
+
+This is useful for delivery persons working in areas with unstable mobile network.
+
+---
+
+## 🧱 Tech Stack
+
+| Layer           | Technology        |
+| --------------- | ----------------- |
+| Frontend        | React + Vite      |
+| Styling         | Tailwind CSS      |
+| Database        | Supabase Postgres |
+| Authentication  | Supabase Auth     |
+| Security        | Supabase RLS      |
+| Offline Storage | IndexedDB         |
+| Android App     | Capacitor         |
+| Windows App     | Electron          |
+| Excel Export    | SheetJS / xlsx    |
+
+---
+
+## 📁 Project Structure
+
+```txt
+ParleyFlow/
+├── frontend/
+│   ├── src/
+│   │   ├── api/
+│   │   │   └── supabaseApi.js
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   │   ├── useIndexedDB.js
+│   │   │   └── useOffline.js
+│   │   ├── lib/
+│   │   │   └── supabaseClient.js
+│   │   ├── pages/
+│   │   │   ├── admin/
+│   │   │   └── operator/
+│   │   └── utils/
+│   ├── android/
+│   ├── electron/
+│   ├── public/
+│   ├── package.json
+│   ├── vite.config.js
+│   └── capacitor.config.ts
+│
+├── supabase/
+│   ├── migrations/
+│   └── functions/
+│
+├── README.md
+└── .gitignore
 ```
 
 ---
 
-## Environment Variables
+## ⚙️ Environment Variables
 
 Create this file:
 
-```text
+```txt
 frontend/.env
 ```
 
-Example:
+Add:
 
 ```env
-VITE_SUPABASE_URL=https://your-project-ref.supabase.co
-VITE_SUPABASE_ANON_KEY=your_supabase_publishable_or_anon_key
-VITE_LOGIN_EMAIL_DOMAIN=father-parley.local
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your_public_publishable_key
+VITE_LOGIN_EMAIL_DOMAIN=parley.com
 ```
 
-Do **not** put the Supabase `service_role` key in the frontend.
+Example operator login:
 
-Frontend-safe keys only:
-
-```text
-VITE_SUPABASE_URL
-VITE_SUPABASE_ANON_KEY
-VITE_LOGIN_EMAIL_DOMAIN
+```txt
+Username: operator1
+Actual email used: operator1@parley.com
 ```
 
-Server/Edge Function only:
+> Never place `SUPABASE_SERVICE_ROLE_KEY` inside the frontend.
 
-```text
-SUPABASE_SERVICE_ROLE_KEY
+---
+
+## 🚀 Run Locally
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Open:
+
+```txt
+http://localhost:5173
 ```
 
 ---
 
-## Supabase Setup
+## 🏗️ Production Build
 
-### Required Tables
+```bash
+cd frontend
+npm run build
+```
 
-The app expects these Supabase tables:
+Build output:
 
-```text
+```txt
+frontend/dist/
+```
+
+---
+
+## 📱 Android APK Build
+
+ParleyFlow supports Android using Capacitor.
+
+### Build and sync
+
+```bash
+cd frontend
+npm run build
+npx cap sync android
+```
+
+### Build debug APK
+
+```bash
+cd frontend/android
+./gradlew assembleDebug
+```
+
+APK output:
+
+```txt
+frontend/android/app/build/outputs/apk/debug/app-debug.apk
+```
+
+### Install on phone
+
+```bash
+adb install -r frontend/android/app/build/outputs/apk/debug/app-debug.apk
+```
+
+---
+
+## 🖥️ Windows Desktop App
+
+ParleyFlow also supports Windows desktop using Electron.
+
+### Run Electron in development
+
+```bash
+cd frontend
+npm run electron:dev
+```
+
+### Build Windows installer
+
+```bash
+cd frontend
+npm run dist:win
+```
+
+Output:
+
+```txt
+frontend/release/
+```
+
+> Do not commit `.exe`, `.msi`, or `release/` files to GitHub.
+> Upload installers under GitHub Releases instead.
+
+---
+
+## 🗄️ Supabase Setup
+
+Required core tables:
+
+```txt
 profiles
 routes
 bills
@@ -168,55 +270,19 @@ daily_batches
 operator_updates
 ```
 
-Row Level Security should be enabled on all public operational tables.
+Important rule:
 
-Check RLS status:
-
-```sql
-select
-  schemaname,
-  tablename,
-  rowsecurity
-from pg_tables
-where schemaname = 'public'
-order by tablename;
+```txt
+profiles.id must match auth.users.id
 ```
 
-Expected important tables:
+For delivery persons:
 
-```text
-profiles                true
-routes                  true
-bills                   true
-daily_batches           true
-operator_updates        true
-```
+1. Create user in Supabase Authentication.
+2. Copy the Auth user UUID.
+3. Insert/update matching row in `public.profiles`.
 
----
-
-## User Management
-
-Delivery persons are managed from the Supabase Dashboard.
-
-### Create Delivery Person
-
-1. Go to:
-
-```text
-Supabase Dashboard → Authentication → Users → Add user
-```
-
-2. Create a user with an email such as:
-
-```text
-operator1@father-parley.local
-```
-
-3. Set a password.
-
-4. Copy the created Auth user UUID.
-
-5. Insert or update the matching profile row:
+Example:
 
 ```sql
 insert into public.profiles (
@@ -241,13 +307,7 @@ set
   active = excluded.active;
 ```
 
-Important:
-
-```text
-public.profiles.id must exactly match auth.users.id
-```
-
-### Deactivate Delivery Person
+Deactivate operator:
 
 ```sql
 update public.profiles
@@ -255,7 +315,7 @@ set active = false
 where username = 'operator1';
 ```
 
-### Reactivate Delivery Person
+Activate operator:
 
 ```sql
 update public.profiles
@@ -263,110 +323,60 @@ set active = true
 where username = 'operator1';
 ```
 
-### Reset Password
-
-Use:
-
-```text
-Supabase Dashboard → Authentication → Users → Select User → Update Password
-```
-
-Do not reset passwords through SQL.
-
 ---
 
-## Local Development
+## 🔐 Security Notes
 
-Install dependencies:
+ParleyFlow uses Supabase Row Level Security.
 
-```bash
-cd frontend
-npm install
+Recommended checks:
+
+```sql
+select
+  schemaname,
+  tablename,
+  rowsecurity
+from pg_tables
+where schemaname = 'public'
+order by tablename;
 ```
 
-Start dev server:
+Important tables should have RLS enabled:
 
-```bash
-npm run dev
+```txt
+profiles
+routes
+bills
+daily_batches
+operator_updates
 ```
 
-Open:
+Frontend must not contain:
 
-```text
-http://localhost:5173
+```txt
+SUPABASE_SERVICE_ROLE_KEY
+API_URL
+VITE_API_URL
+FastAPI backend URL
+hardcoded passwords
 ```
 
-Build production frontend:
+Security design:
 
-```bash
-npm run build
-```
-
----
-
-## Android APK Build
-
-Install dependencies:
-
-```bash
-cd frontend
-npm install
-```
-
-Build Vite project:
-
-```bash
-npm run build
-```
-
-Sync Capacitor Android project:
-
-```bash
-npx cap sync android
-```
-
-Build debug APK:
-
-```bash
-cd android
-./gradlew assembleDebug
-```
-
-APK output:
-
-```text
-frontend/android/app/build/outputs/apk/debug/app-debug.apk
-```
-
-Install on connected Android phone:
-
-```bash
-adb devices
-adb install -r app/build/outputs/apk/debug/app-debug.apk
+```txt
+UI permissions are not trusted.
+Supabase RLS decides real access.
+Operators can only access their own assigned data.
+Admins can manage operational data.
 ```
 
 ---
 
-## Required Capacitor Plugins
+## 📊 Export Report
 
-This project uses Capacitor 6.
+The payment collection export includes:
 
-Install compatible plugin versions only:
-
-```bash
-cd frontend
-npm install @capacitor/filesystem@6 @capacitor/share@6
-```
-
-Do not install Capacitor 8 plugins unless the whole project is upgraded to Capacitor 8.
-
----
-
-## Export Reports
-
-The payment collection export generates an Excel file with these columns:
-
-```text
+```txt
 Sr/No
 Bill No
 Bill Date
@@ -381,186 +391,91 @@ Remarks
 Difference
 ```
 
-The export includes totals for:
+The report also includes a total row for:
 
-```text
+```txt
 Bill Amount
 Cash
 Online
 Cheq
 Cash Pending
 Difference
-```
-
-Difference calculation:
-
-```text
-Difference = Bill Amount - Cash - Online - Cheq
-```
-
-Cash Pending is shown separately and is not subtracted from Difference unless business logic is changed later.
-
-On Android, export uses Capacitor file/share support instead of normal browser-only download behavior.
-
----
-
-## Offline Sync Flow
-
-```text
-Operator opens app online
-        ↓
-Bills load from Supabase
-        ↓
-Bills are saved to IndexedDB
-        ↓
-Operator goes offline
-        ↓
-App loads cached bills from IndexedDB
-        ↓
-Operator saves payment update
-        ↓
-Update is saved to IndexedDB pending_updates
-        ↓
-Internet returns
-        ↓
-Pending updates sync to Supabase
-        ↓
-Successfully synced updates are removed from local queue
+Cancelled Count
 ```
 
 ---
 
-## Security Checklist
+## 🧪 Testing Checklist
 
-Before production use, verify:
+Before using in production:
 
-```text
-No service_role key in frontend
-No FastAPI/backend API URL in frontend
-No axios/API_URL dependency
-RLS enabled on all public operational tables
-Operators can read only their assigned bills
-Operators cannot insert updates for other operators' bills
-Admins are verified through profiles role = admin and active = true
-Android cleartext HTTP is not enabled
-Android backup is disabled if local data should not be backed up
-```
-
-Recommended Android setting:
-
-```xml
-android:allowBackup="false"
-```
-
-Final frontend scan:
-
-```bash
-grep -RIn "service_role\|SUPABASE_SERVICE\|axios\|API_URL\|VITE_API_URL\|localhost:8000\|127.0.0.1:8000\|/sync/" frontend \
-  --exclude-dir=node_modules \
-  --exclude-dir=dist \
-  --exclude-dir=android
-```
-
-Expected result:
-
-```text
-no output
-```
+* [ ] Admin login works
+* [ ] Operator login works
+* [ ] Operator bills load correctly
+* [ ] Assigned route shows correct delivery person
+* [ ] Online payment save works
+* [ ] Offline payment save works
+* [ ] Pending updates sync after reconnect
+* [ ] Upload sheet works
+* [ ] Export report works
+* [ ] Android APK works without backend
+* [ ] Windows app works without backend
+* [ ] No service role key in frontend
+* [ ] RLS is enabled on all important tables
 
 ---
 
-## Testing Checklist
+## 🧹 Git Ignore Notes
 
-### Admin
+Do not push generated files:
 
-```text
-Admin login works
-Dashboard loads
-Routes display correctly
-Delivery persons list displays
-Upload sheet works
-Export Excel works
-Export includes total row
+```txt
+frontend/node_modules/
+frontend/dist/
+frontend/release/
+frontend/out/
+frontend/android/app/build/
+*.exe
+*.msi
+*.apk
+*.aab
+*.jks
+*.keystore
+frontend/.env
 ```
 
-### Operator
-
-```text
-Operator login works
-Assigned bills load
-Bill details open
-Payment save works online
-Payment save works offline
-Pending updates sync after reconnect
-Operator cannot see another operator's bills
-```
-
-### Android APK
-
-```text
-APK installs successfully
-Login works on phone
-Supabase requests work without local backend
-Offline cache works after app restart
-Export/share works on Android
-No repeated PWA update popups
-```
+Push source code only.
 
 ---
 
-## Common Commands
-
-Build and sync Android after frontend changes:
-
-```bash
-cd frontend
-npm run build
-npx cap sync android
-```
-
-Build debug APK:
-
-```bash
-cd frontend/android
-./gradlew assembleDebug
-```
-
-Install APK:
-
-```bash
-adb install -r app/build/outputs/apk/debug/app-debug.apk
-```
-
-Check for old backend references:
-
-```bash
-grep -RIn "axios\|API_URL\|VITE_API_URL\|localhost:8000\|127.0.0.1:8000\|/sync/" frontend \
-  --exclude-dir=node_modules \
-  --exclude-dir=dist \
-  --exclude-dir=android
-```
-
----
-
-## Notes
-
-- `VITE_SUPABASE_ANON_KEY` or Supabase publishable key is safe for frontend use.
-- `SUPABASE_SERVICE_ROLE_KEY` must never be added to frontend code or APK.
-- Do not run `npm audit fix --force` blindly because it can break Capacitor/Vite dependency compatibility.
-- If updating Capacitor, update all Capacitor packages together.
-- For Capacitor 6, use Capacitor 6 plugin versions.
-
----
-
-## License
-
-This project is currently private/internal.Will add licence later.
-
----
-
-## Developer
+## 👨‍💻 Developer
 
 Developed by **Nachiket** with ❤️
 
-- GitHub: https://github.com/potterheadk
-- LinkedIn: https://www.linkedin.com/in/nachiket-kulkarni-362a54266/
+* GitHub: [potterheadk](https://github.com/potterheadk)
+* LinkedIn: [Nachiket Kulkarni](https://www.linkedin.com/in/nachiket-kulkarni-362a54266/)
+
+---
+
+## 📌 Project Status
+
+ParleyFlow is built for real operational use with:
+
+```txt
+No custom backend
+No Railway/Render dependency
+Direct Supabase connection
+Android APK support
+Windows EXE support
+Offline operator workflow
+```
+
+---
+
+## 📄 License
+
+This project is currently private/internal.
+Will add license later.
+
+```
+```
