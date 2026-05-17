@@ -1,0 +1,58 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+
+# Build output
+dist/
+frontend/dist/
+build/
+frontend/build/
+
+# Environment files
+.env
+.env.*
+!.env.example
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+
+# Android build/cache
+frontend/android/.gradle/
+frontend/android/build/
+frontend/android/app/build/
+frontend/android/local.properties
+frontend/android/captures/
+*.apk
+*.aab
+
+# Signing keys
+*.jks
+*.keystore
+*.p12
+*.pem
+key.properties
+
+# Python/backend leftovers
+backend/
+backend_old_removed_after_supabase_migration/
+__pycache__/
+*.pyc
+myvenv/
+venv/
+.venv/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Test/report output
+frontend/playwright-report/
+frontend/test-results/
+coverage/
+
+# OS/editor
+.DS_Store
+.idea/
+.vscode/
